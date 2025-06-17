@@ -23,6 +23,7 @@ body {
   width: 300px;
   padding: 0.5rem;
   font-size: 1rem;
+  /* border-color:  #3a4755; */
 }
 .categories {
   display: flex;
@@ -86,7 +87,7 @@ body {
   cursor: pointer;
 }
 .compare-btn {
-  background-color: green;
+  background-color: rgb(70, 110, 70);
   color: white;
   border: none;
   padding: 0.4rem 0.8rem;

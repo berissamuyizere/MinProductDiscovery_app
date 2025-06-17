@@ -64,8 +64,6 @@ function displayProducts(products) {
   });
   renderPagination(products.length);
 }
-
-
 function toggleLike(id) {
   const index = likedProducts.indexOf(id);
   if (index === -1) {
@@ -82,12 +80,6 @@ function addToCompare(id) {
   }
   renderComparison();
 }
-
-// const rate = document.getElementById('rating')
-// rate.addEventListener(onclick, ()=>{
-//   rating.style.backgroundColor = "blue"
-
-// })
 
 function renderComparison() {
   const compareItems = document.getElementById('compareItems');
