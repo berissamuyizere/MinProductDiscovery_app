@@ -1,0 +1,150 @@
+@font-face {
+  font-family: doris;
+  src: url(./fonts/Nunito-VariableFont_wght.ttf);
+}
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f5f5;
+  font-family: doris;
+}
+.navbar {
+  background-color: #ffffff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar input {
+  width: 300px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.categories {
+  display: flex;
+  gap: 10px;
+  padding: 1rem;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+.categories button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #aaa;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+.categories button:hover {
+  background: #0073e6;
+  color: white;
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  gap: 2rem;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  flex: 3;
+}
+.product {
+  background: white;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: box-shadow 0.2s;
+}
+.product:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.product img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+.product h4 {
+  font-size: 1rem;
+  height: 2.5rem;
+  overflow: hidden;
+}
+.product p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+.likes i {
+  color: crimson;
+  cursor: pointer;
+}
+.compare-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.cart-btn{
+   background-color: #3a4755;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+.comparison {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 6px;
+  flex: 1;
+  max-width: 300px;
+}
+.pagination-controls {
+  text-align: center;
+  margin: 1rem 0;
+}
+.pagination-controls button {
+  padding: 0.4rem 0.8rem;
+  margin: 0 4px;
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.productRating{
+  display: flex;
+  justify-content: space-between;
+}
+
+#rating{
+  color: blue;
+}
+
+.comparison i{
+  color: green;
+}
+.productRating p{
+  font-weight: bold;
+}
+
+.buttons{
+  display: flex;
+  gap: 2%;
+}
