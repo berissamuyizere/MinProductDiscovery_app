@@ -21,7 +21,7 @@ async function fetchProducts() {
 function displayCategories(products) {
   const categories = [...new Set(products.map(p => p.category))];
   categoryContainer.innerHTML = '';
-  // "All" button
+
   const allBtn = document.createElement('button');
   allBtn.textContent = 'All';
   allBtn.addEventListener('click', () => filterCategory(null));
@@ -102,7 +102,7 @@ function renderComparison() {
 
   compareItems.style.display = '';
 
-  // --- Comparison Header (optional, can style as you wish) ---
+
   const headerDiv = document.createElement('div');
   headerDiv.className = 'compare-header';
   headerDiv.innerHTML = `
@@ -111,11 +111,11 @@ function renderComparison() {
   `;
   compareItems.appendChild(headerDiv);
 
-  // --- Comparison Table ---
+
   const products = compareList.map(id => originalProducts.find(p => p.id === id));
   const table = document.createElement('table');
   table.className = 'comparison-table';
-  // Header row: image + title
+
   const headerRow = document.createElement('tr');
   products.forEach(p => {
     const th = document.createElement('th');
@@ -124,7 +124,7 @@ function renderComparison() {
   });
   table.appendChild(headerRow);
 
-  // Price row
+ 
   const priceRow = document.createElement('tr');
   products.forEach(p => {
     const td = document.createElement('td');
@@ -135,7 +135,7 @@ function renderComparison() {
 
   compareItems.appendChild(table);
 
-  // --- Clear Button BELOW the table ---
+ 
   const clearBtn = document.createElement('button');
   clearBtn.textContent = 'Clear Comparison';
   clearBtn.className = 'clear-compare-btn';
@@ -185,9 +185,9 @@ searchInput.addEventListener('input', () => {
 });
 fetchProducts();
 
-// --- Cart and Liked Section Logic ---
 
-// Add control buttons above the grid
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const controlsContainer = document.createElement('div');
   controlsContainer.className = 'products-controls';
@@ -205,12 +205,12 @@ window.addEventListener('DOMContentLoaded', () => {
   controlsContainer.appendChild(viewCartBtn);
   controlsContainer.appendChild(viewLikedBtn);
 
-  // Insert above products grid
+
   const productGrid = document.getElementById('productContainer');
   productGrid.parentNode.insertBefore(controlsContainer, productGrid);
 });
 
-// --- Show/Hide Cart/Liked Sections (one at a time) ---
+
 function showCartSection() {
   renderCart();
   document.getElementById('cartContainer').style.display = 'block';
@@ -222,7 +222,7 @@ function showLikedSection() {
   document.getElementById('cartContainer').style.display = 'none';
 }
 
-// --- Render Cart Section ---
+
 function renderCart() {
   const cartContainer = document.getElementById('cartContainer');
   cartContainer.innerHTML = '';
@@ -248,14 +248,14 @@ function renderCart() {
   });
   cartContainer.appendChild(table);
 
-  // Cart total
+  
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const totalDiv = document.createElement('div');
   totalDiv.className = "cart-total";
   totalDiv.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
   cartContainer.appendChild(totalDiv);
 
-  // Close button
+ 
   const closeBtn = document.createElement('button');
   closeBtn.textContent = "Close Cart";
   closeBtn.className = "close-section-btn";
@@ -263,14 +263,14 @@ function renderCart() {
   cartContainer.appendChild(closeBtn);
 }
 
-// --- Remove from cart + update UI ---
+
 function removeFromCart(id) {
   cart = cart.filter(item => item.id !== id);
   localStorage.setItem('cart', JSON.stringify(cart));
   renderCart();
 }
 
-// --- Render Liked Items Section ---
+
 function renderLiked() {
   const likedContainer = document.getElementById('likedContainer');
   likedContainer.innerHTML = '';
@@ -297,7 +297,7 @@ function renderLiked() {
   });
   likedContainer.appendChild(table);
 
-  // Close button
+  
   const closeBtn = document.createElement('button');
   closeBtn.textContent = "Close Liked Items";
   closeBtn.className = "close-section-btn";
