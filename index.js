@@ -7,7 +7,7 @@ let likedProducts = JSON.parse(localStorage.getItem('likedProducts')) || [];
 let compareList = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentPage = 1;
-const perPage = 8;
+const perPage = 12;
 async function fetchProducts() {
   const response = await fetch('https://fakestoreapi.com/products');
   const data = await response.json();
