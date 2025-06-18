@@ -7,7 +7,8 @@ let likedProducts = JSON.parse(localStorage.getItem('likedProducts')) || [];
 let compareList = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentPage = 1;
-const perPage = 8;
+const perPage = 13;
+
 async function fetchProducts() {
   const response = await fetch('https://fakestoreapi.com/products');
   const data = await response.json();
@@ -19,9 +20,18 @@ async function fetchProducts() {
 
 function displayCategories(products) {
   const categories = [...new Set(products.map(p => p.category))];
-  categoryContainer.innerHTML = `<button onclick="filterCategory(null)">All</button>`;
+  categoryContainer.innerHTML = '';
+  // "All" button
+  const allBtn = document.createElement('button');
+  allBtn.textContent = 'All';
+  allBtn.addEventListener('click', () => filterCategory(null));
+  categoryContainer.appendChild(allBtn);
+
   categories.forEach(cat => {
-    categoryContainer.innerHTML += `<button onclick="filterCategory('${cat}')">${cat}</button>`;
+    const btn = document.createElement('button');
+    btn.textContent = cat;
+    btn.addEventListener('click', () => filterCategory(cat));
+    categoryContainer.appendChild(btn);
   });
 }
 function filterCategory(category) {
@@ -84,12 +94,56 @@ function addToCompare(id) {
 function renderComparison() {
   const compareItems = document.getElementById('compareItems');
   compareItems.innerHTML = '';
-  compareList.forEach(id => {
-    const product = originalProducts.find(p => p.id === id);
-    const div = document.createElement('div');
-    div.innerHTML = `<strong>${product.title}</strong><p>$${product.price}</p>`;
-    compareItems.appendChild(div);
+
+  if (compareList.length === 0) {
+    compareItems.style.display = 'none';
+    return;
+  }
+
+  compareItems.style.display = '';
+
+  // --- Comparison Header (optional, can style as you wish) ---
+  const headerDiv = document.createElement('div');
+  headerDiv.className = 'compare-header';
+  headerDiv.innerHTML = `
+    <span class="compare-icon">🔍</span>
+    <span class="compare-title">Product Comparison</span>
+  `;
+  compareItems.appendChild(headerDiv);
+
+  // --- Comparison Table ---
+  const products = compareList.map(id => originalProducts.find(p => p.id === id));
+  const table = document.createElement('table');
+  table.className = 'comparison-table';
+  // Header row: image + title
+  const headerRow = document.createElement('tr');
+  products.forEach(p => {
+    const th = document.createElement('th');
+    th.innerHTML = ` <img src="${p.image}" alt="${p.title}" class="compare-img"><br> ${p.title}</div>`;
+    headerRow.appendChild(th);
   });
+  table.appendChild(headerRow);
+
+  // Price row
+  const priceRow = document.createElement('tr');
+  products.forEach(p => {
+    const td = document.createElement('td');
+    td.innerHTML = `<span class="compare-price">$${p.price}</span>`;
+    priceRow.appendChild(td);
+  });
+  table.appendChild(priceRow);
+
+  compareItems.appendChild(table);
+
+  // --- Clear Button BELOW the table ---
+  const clearBtn = document.createElement('button');
+  clearBtn.textContent = 'Clear Comparison';
+  clearBtn.className = 'clear-compare-btn';
+  clearBtn.onclick = function() {
+    compareList = [];
+    renderComparison();
+  };
+  compareItems.appendChild(clearBtn);
 }
 function addToCart(id) {
   const product = originalProducts.find(p => p.id === id);
@@ -131,28 +185,122 @@ searchInput.addEventListener('input', () => {
 });
 fetchProducts();
 
-// function generateComparisonTable(id) {
-//    if (!compareList.includes(id)) {
-// const tableBody = document.querySelector("#comparison-table tbody");
-//     addToCompare.forEach(item => {
-//         const row = document.createElement("tr");
-//         const featureCell = document.createElement("td");
-//         featureCell.textContent = item.feature;
-//         row.appendChild(featureCell);
+// --- Cart and Liked Section Logic ---
 
-//         for (const key in item) {
-//             if (key !== "feature") {
-//                 const productCell = document.createElement("td");
-//                 productCell.textContent = item[key];
-//                 row.appendChild(productCell);
-//             }
-//         }
-//         tableBody.appendChild(row);
-//     });
-// }
-//     compareList.push(id);
-//   }
-//   renderComparison();
+// Add control buttons above the grid
+window.addEventListener('DOMContentLoaded', () => {
+  const controlsContainer = document.createElement('div');
+  controlsContainer.className = 'products-controls';
 
-//     
-// generateComparisonTable();
+  const viewCartBtn = document.createElement('button');
+  viewCartBtn.textContent = "View Cart";
+  viewCartBtn.className = "cart-btn";
+  viewCartBtn.onclick = showCartSection;
+
+  const viewLikedBtn = document.createElement('button');
+  viewLikedBtn.textContent = "View Liked Items";
+  viewLikedBtn.className = "compare-btn";
+  viewLikedBtn.onclick = showLikedSection;
+
+  controlsContainer.appendChild(viewCartBtn);
+  controlsContainer.appendChild(viewLikedBtn);
+
+  // Insert above products grid
+  const productGrid = document.getElementById('productContainer');
+  productGrid.parentNode.insertBefore(controlsContainer, productGrid);
+});
+
+// --- Show/Hide Cart/Liked Sections (one at a time) ---
+function showCartSection() {
+  renderCart();
+  document.getElementById('cartContainer').style.display = 'block';
+  document.getElementById('likedContainer').style.display = 'none';
+}
+function showLikedSection() {
+  renderLiked();
+  document.getElementById('likedContainer').style.display = 'block';
+  document.getElementById('cartContainer').style.display = 'none';
+}
+
+// --- Render Cart Section ---
+function renderCart() {
+  const cartContainer = document.getElementById('cartContainer');
+  cartContainer.innerHTML = '';
+  if (cart.length === 0) {
+    cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+    return;
+  }
+  const table = document.createElement('table');
+  table.className = 'cart-table';
+  table.innerHTML = `
+    <tr><th>Image</th><th>Title</th><th>Price</th><th>Qty</th><th>Remove</th></tr>
+  `;
+  cart.forEach(item => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="${item.image}" style="width:40px;height:40px;"></td>
+      <td>${item.title}</td>
+      <td>$${item.price}</td>
+      <td>${item.qty}</td>
+      <td><button onclick="removeFromCart(${item.id})">Remove</button></td>
+    `;
+    table.appendChild(row);
+  });
+  cartContainer.appendChild(table);
+
+  // Cart total
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const totalDiv = document.createElement('div');
+  totalDiv.className = "cart-total";
+  totalDiv.innerHTML = `<strong>Total: $${total.toFixed(2)}</strong>`;
+  cartContainer.appendChild(totalDiv);
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = "Close Cart";
+  closeBtn.className = "close-section-btn";
+  closeBtn.onclick = () => { cartContainer.style.display = "none"; };
+  cartContainer.appendChild(closeBtn);
+}
+
+// --- Remove from cart + update UI ---
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+// --- Render Liked Items Section ---
+function renderLiked() {
+  const likedContainer = document.getElementById('likedContainer');
+  likedContainer.innerHTML = '';
+  if (likedProducts.length === 0) {
+    likedContainer.innerHTML = '<p>You have no liked items.</p>';
+    return;
+  }
+  const table = document.createElement('table');
+  table.className = 'cart-table';
+  table.innerHTML = `
+    <tr><th>Image</th><th>Title</th><th>Price</th><th>Unlike</th></tr>
+  `;
+  likedProducts.forEach(id => {
+    const product = originalProducts.find(p => p.id === id);
+    if (!product) return;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="${product.image}" style="width:40px;height:40px;"></td>
+      <td>${product.title}</td>
+      <td>$${product.price}</td>
+      <td><button onclick="toggleLike(${product.id}); renderLiked();">Unlike</button></td>
+    `;
+    table.appendChild(row);
+  });
+  likedContainer.appendChild(table);
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = "Close Liked Items";
+  closeBtn.className = "close-section-btn";
+  closeBtn.onclick = () => { likedContainer.style.display = "none"; };
+  likedContainer.appendChild(closeBtn);
+}
