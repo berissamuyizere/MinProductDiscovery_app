@@ -27,13 +27,15 @@ function displayCategories(products) {
   allBtn.addEventListener('click', () => filterCategory(null));
   categoryContainer.appendChild(allBtn);
 
-  categories.forEach(cat => {
+  categories.forEach(category => {
     const btn = document.createElement('button');
-    btn.textContent = cat;
-    btn.addEventListener('click', () => filterCategory(cat));
+    btn.textContent = category;
+    btn.addEventListener('click', () => filterCategory(category));
     categoryContainer.appendChild(btn);
   });
 }
+
+
 function filterCategory(category) {
   currentPage = 1;
   allProducts = category
@@ -51,12 +53,12 @@ function displayProducts(products) {
     div.className = 'product';
     div.innerHTML = `
       <img src="${product.image}" alt="${product.title}">
-      <h4>${product.title}</h4>
+      <h4>${product.title.slice(0, 30)}</h4>
       <div class= "productRating">
       <p><i class="fas fa-dollar-sign"></i> ${product.price}</p>
       <p><i class="fas fa-star" id = "rating"></i> ${product.rating.rate} (${product.rating.count})</p>
       </div>
-      <p>${product.description.slice(0, 60)}...</p>
+      <p>${product.description.slice(0, 40)}...</p>
       <p class="likes" onclick="toggleLike(${product.id})">
         <i class="${likedProducts.includes(product.id) ? 'fas' : 'far'} fa-heart"></i>
       </p>
