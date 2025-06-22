@@ -35,7 +35,6 @@ function displayCategories(products) {
   });
 }
 
-
 function filterCategory(category) {
   currentPage = 1;
   allProducts = category
@@ -163,6 +162,7 @@ function renderPagination(totalItems) {
   const totalPages = Math.ceil(totalItems / perPage);
   const pagination = document.getElementById('pagination');
   pagination.innerHTML = '';
+  
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement('button');
     btn.textContent = i;

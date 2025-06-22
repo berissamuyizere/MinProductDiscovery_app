@@ -19,6 +19,10 @@ body {
   top: 0;
   z-index: 1000;
 }
+
+.navbar h1{
+  color: white;
+}
 .navbar input {
   width: 300px;
   padding: 0.5rem;
@@ -60,6 +64,7 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1rem;
   flex: 3;
+
 }
 .product {
   background: white;
@@ -192,25 +197,39 @@ body {
 .compare-title {
   letter-spacing: 1px;
 }
-.clear-compare-btn, .close-section-btn {
+.clear-compare-btn {
   background: linear-gradient(90deg, #ff6c6c 40%, #ffb86c 100%);
   color: #fff;
   border: none;
   padding: 0.7em 2em;
   font-size: 1em;
   border-radius: 8px;
-  /* margin: 2em auto 1em auto; */
   display: block;
   box-shadow: 0 2px 6px rgba(255,108,108,0.18);
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
 }
+
+.close-section-btn{
+  background: linear-gradient(90deg, #ff6c6c 40%, #ffb86c 100%);
+  color: #fff;
+  border: none;
+  padding: 0.7em 2em;
+  font-size: 1em;
+  border-radius: 8px;
+  /* margin: 2em auto 3em 5em; */
+  margin-left: 20%;
+  margin-top: -2%;
+  box-shadow: 0 2px 6px rgba(255,108,108,0.18);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
 .clear-compare-btn:hover, .close-section-btn:hover {
   background: linear-gradient(90deg, #ff4c4c 40%, #ff8e4c 100%);
   box-shadow: 0 4px 16px rgba(255,108,108,0.28);
 }
 .comparison-table {
-  /* margin: 2em auto 2em auto; */
   border-collapse: separate;
   border-spacing: 0;
   background: #fff;
@@ -283,7 +302,11 @@ body {
   border-bottom: none;
 }
 .cart-total {
-  margin: 1em 0 0 0;
+  /* margin: 1em 0 0 0; */
   text-align: right;
   font-size: 1.15em;
+}
+
+#cartContainer{
+  margin-left: -2% ;
 }
